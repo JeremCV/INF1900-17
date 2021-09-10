@@ -1,0 +1,372 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-apple-darwin11.3.0
+ 
+
+# Make data base, printed on Fri Sep 10 11:50:31 2021
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+ 
+# automatic
+?F = $(notdir $?)
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /Users/pahbluh/Desktop/LOG1900/tp/tp2/pb1
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"fr","availableLanguages":{},"_languagePackSupport":true}
+# environment
+_ = /usr/bin/make
+# makefile (from `Makefile', line 79)
+CFLAGS = -I. -I/usr/include/simavr  -MMD $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) -std=c++14 -fpack-struct -fshort-enums -funsigned-bitfields -funsigned-char -Wall                                        
+# makefile (from `Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# makefile (from `Makefile', line 108)
+CPPFILES = $(filter %.cpp, $(PRJSRC))
+# makefile (from `Makefile', line 85)
+CXXFLAGS = -fno-exceptions     
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# makefile (from `Makefile', line 106)
+CFILES = $(filter %.c, $(PRJSRC))
+# environment
+__CFBundleIdentifier = com.microsoft.VSCode
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/1v/pqv5ttn94x3g1rhd264f_v7m0000gn/T/vscode-ipc-08162890-4f98-4eea-8c58-c19f0e4e56a8.sock
+# environment
+VSCODE_CWD = /
+# environment
+PATH = /Users/pahbluh/opt/miniconda3/bin:/Users/pahbluh/opt/miniconda3/condabin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/TeX/texbin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+# makefile (from `Makefile', line 72)
+HEXFORMAT = ihex
+# makefile (from `Makefile', line 70)
+REMOVE = rm -f
+# makefile (from `Makefile', line 68)
+AVRDUDE = avrdude
+# environment
+VSCODE_LOG_STACK = false
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# makefile (from `Makefile', line 88)
+LDFLAGS = -Wl,-Map,$(TRG).map -mmcu=$(MCU)
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# makefile (from `Makefile', line 111)
+OBJDEPS = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.LQMjrNh52L/Listeners
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = /private/tmp/com.apple.launchd.Dk2jhm6BRm/org.macosforge.xquartz:0
+# environment
+CONDA_EXE = /Users/pahbluh/opt/miniconda3/bin/conda
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /Users/pahbluh/Desktop/LOG1900/tp/tp2/pb1
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+# environment
+HOME = /Users/pahbluh
+# default
+MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/pahbluh/Library/Application Support/Code/CachedData/e7d7e9a9348e6a8cc8c03f877d39cb72e5dfb1ff
+# environment
+LOGNAME = pahbluh
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+CONDA_PROMPT_MODIFIER = (base) 
+# makefile (from `Makefile', line 97)
+HEXTRG = $(HEXROMTRG) $(PROJECTNAME).ee.hex
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+CONDA_DEFAULT_ENV = base
+# environment
+XPC_FLAGS = 0x0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+SHLVL = 1
+# makefile (from `Makefile', line 64)
+CC = avr-gcc
+# default
+MAKE_VERSION := 3.81
+# environment
+USER = pahbluh
+# makefile
+.DEFAULT_GOAL := all
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# makefile (from `Makefile', line 95)
+TRG = $(PROJECTNAME).elf
+# environment
+CONDA_SHLVL = 1
+# default
+MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
+# makefile (from `Makefile', line 35)
+INC = 
+# default
+.VARIABLES := 
+# environment
+TMPDIR = /var/folders/1v/pqv5ttn94x3g1rhd264f_v7m0000gn/T/
+# automatic
+ 
+*F = $(notdir $*)
+# makefile (from `Makefile', line 96)
+HEXROMTRG = $(PROJECTNAME).hex
+# environment
+VSCODE_IPC_HOOK = /Users/pahbluh/Library/Application Support/Code/1.60.0-main.sock
+# makefile
+MAKEFLAGS = Rrqp
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.34217346.34217352
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# makefile (from `Makefile', line 42)
+OPTLEVEL = s
+# makefile (from `Makefile', line 22)
+MCU = atmega324pa
+# environment
+__CF_USER_TEXT_ENCODING = 0x1F5:0x0:0xB
+# environment
+COMMAND_MODE = unix2003
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# makefile (from `Makefile', line 26)
+PROJECTNAME = test
+# environment
+LC_ALL = C
+# makefile (from `Makefile', line 46)
+AVRDUDE_PROGRAMMERID = usbasp
+# environment
+CONDA_PYTHON_EXE = /Users/pahbluh/opt/miniconda3/bin/python
+# makefile (from `Makefile', line 38)
+LIBS = 
+# automatic
+^F = $(notdir $^)
+# makefile (from `Makefile', line 66)
+OBJCOPY = avr-objcopy
+# default
+SUFFIXES := 
+# environment
+_CE_M = 
+# makefile (from `Makefile', line 32)
+PRJSRC = pb1.cpp
+# default
+.INCLUDE_DIRS = /usr/local/include
+# environment
+MAKELEVEL := 0
+# environment
+CONDA_PREFIX = /Users/pahbluh/opt/miniconda3
+# environment
+VSCODE_PID = 42996
+# environment
+_CE_CONDA = 
+# environment
+LANG = C
+# variable set hash-table stats:
+# Load=92/1024=9%, Rehash=0, Collisions=4/137=3%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 16777220, inode 34327445): 5 files, no impossibilities.
+
+# 5 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+%.o: %.c
+#  commands to execute (from `Makefile', line 141):
+	$(CC) $(CFLAGS) -c $<
+	
+
+%.o: %.cpp
+#  commands to execute (from `Makefile', line 144):
+	$(CC) $(CFLAGS) $(CXXFLAGS) -c $<
+	
+
+%.hex: %.elf
+#  commands to execute (from `Makefile', line 154):
+	$(OBJCOPY) -j .text -j .data \
+	-O $(HEXFORMAT) $< $@
+	
+
+# 3 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+all: test.elf test.hex
+#  Phony target (prerequisite of .PHONY).
+#  Command-line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/8=0%
+
+.PHONY: all install clean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+ 
+#  Last modified 2021-09-10 11:50:27
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+pb1.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2021-09-10 11:49:27
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+test.hex:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+test.elf: pb1.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/8=0%
+#  commands to execute (from `Makefile', line 135):
+	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS) \
+	-lm $(LIBS)
+	
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 167):
+	$(REMOVE) $(TRG) $(TRG).map $(OBJDEPS) $(HEXTRG) *.d
+	
+
+pb1.o: pb1.cpp
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `pb1'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := pb1.o
+# automatic
+# % := 
+# automatic
+# * := pb1
+# automatic
+# + := pb1.cpp
+# automatic
+# | := 
+# automatic
+# < := pb1.cpp
+# automatic
+# ^ := pb1.cpp
+# automatic
+# ? := pb1.cpp
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/17=6%
+#  commands to execute (from `Makefile', line 144):
+	$(CC) $(CFLAGS) $(CXXFLAGS) -c $<
+	
+
+# Not a target:
+*.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+install: test.hex
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 161):
+	$(AVRDUDE) -c $(AVRDUDE_PROGRAMMERID)   \
+	-p $(MCU) -P -e -U flash:w:$(HEXROMTRG)
+	
+
+# files hash-table stats:
+# Load=12/1024=1%, Rehash=0, Collisions=1/37=3%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 2
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 4083 / max = 4083 / min = 4083 / avg = 4083
+
+# Finished Make data base on Fri Sep 10 11:50:31 2021
+
+ 

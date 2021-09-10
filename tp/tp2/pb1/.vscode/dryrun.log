@@ -1,0 +1,10 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/pahbluh/Desktop/LOG1900/tp/tp2/pb1'
+avr-gcc -I. -I/usr/include/simavr  -MMD  -g -mmcu=atmega324pa -Os -std=c++14 -fpack-struct -fshort-enums -funsigned-bitfields -funsigned-char -Wall                                         -fno-exceptions      -c pb1.cpp
+avr-gcc -Wl,-Map,test.elf.map -mmcu=atmega324pa -o test.elf  pb1.o \
+	-lm 
+avr-objcopy -j .text -j .data \
+		-O ihex test.elf test.hex
+ 
+make: Leaving directory `/Users/pahbluh/Desktop/LOG1900/tp/tp2/pb1'
+ 
