@@ -3,7 +3,12 @@ INF1900 - TP2 - Probleme 1
 
 Nom: Jeremie Cloutier-Vilhuber
 Nom: Pablo Sepulveda Solis
-Date de modification: 2021-09-08
+Date de modification: 2021-09-10
+
+Description: 
+Programme qui allume la couleur rouge d'une DEL pendant 1 seconde
+après avoir appuyé et relâché 5 fois le bouton-poussoir. Par la suite, 
+on revient au départ pour pouvoir recommencer.
 
 Table des etats:
 
@@ -59,8 +64,7 @@ int main(){
     for(;;){
         while (read_button()){
             if(!appui){
-                switch(currentState)
-                {
+                switch(currentState){
                     case INIT:
                         currentState = APPUI_1;
                         break;

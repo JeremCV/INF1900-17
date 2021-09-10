@@ -3,7 +3,17 @@ INF1900 - TP2 - Probleme 2
 
 Nom: Jeremie Cloutier-Vilhuber
 Nom: Pablo Sepulveda Solis
-Date de modification: 2021-09-08
+Date de modification: 2021-09-10
+
+Description: 
+Programme qui allume la couleur rouge d'une DEL quand la carte 
+mère démarre. Si le bouton-poussoir noir est pesé, la DEL affiche 
+la couleur ambre. Quand le bouton-poussoir est relâché, la DEL 
+devient verte. Si le bouton est de nouveau pesé, la DEL prend la 
+couleur rouge encore. Quand il est relâché, la DEL s'éteint. Si 
+le bouton est de nouveau pesé, la DEL affiche la couleur verte. 
+Quand il est relâché, la DEL tourne au rouge ce qui fait que la 
+carte mère est de retour à son état initial et tout peut recommencer.
 
 Table des etats:
 
