@@ -18,14 +18,17 @@ int main()
 
     int a = 1000;
     int b = 1000;
-    int dec = 1;
+    int dec = 3;
 
     while (a >= 0)
     {   
-        PORTA = VERT;
-        Delay_us(a);
-        PORTA = ETEINT;
-        Delay_us(b-a);
+        for (int i=0; i<5;i++){  
+            PORTA = ROUGE;
+            Delay_us(a);
+            PORTA = ETEINT;
+            Delay_us(b-a);
+        }
+            a -= dec;
     }
     return 0; 
 }
