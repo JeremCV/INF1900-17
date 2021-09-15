@@ -3,7 +3,7 @@ INF1900 - TP2 - Probleme 2
 
 Nom: Jeremie Cloutier-Vilhuber
 Nom: Pablo Sepulveda Solis
-Date de modification: 2021-09-10
+Date de modification: 2021-09-15
 
 Description: 
 Programme qui allume la couleur rouge d'une DEL quand la carte 
@@ -15,21 +15,24 @@ le bouton est de nouveau pesé, la DEL affiche la couleur verte.
 Quand il est relâché, la DEL tourne au rouge ce qui fait que la 
 carte mère est de retour à son état initial et tout peut recommencer.
 
+Le + de la DEL libre est connecté au port A2.
+Le - de la DEL libre est connecté au port A1.
+
 Table des etats:
 
 Etat present   B   Etat suivant   Sortie
     INIT       0       INIT       rouge
-    INIT       1       AMBER      ambre
-    AMBER      0      GREEN_1     vert
-    AMBER      1       AMBER      ambre
-   GREEN_1     0      GREEN_1     vert
-   GREEN_1     1        RED       rouge
-     RED       0        OFF         0
-     RED       1        RED       rouge
-     OFF       0        OFF         0
-     OFF       1      GREEN_2     vert
-   GREEN_2     0        INIT      rouge
-   GREEN_2     1      GREEN_2     vert
+    INIT       1       AMBRE      ambre
+    AMBRE      0       VERT_1     vert
+    AMBRE      1       AMBRE      ambre
+    VERT_1     0       VERT_1     vert
+    VERT_1     1       ROUGE      rouge
+    ROUGE      0       ETEINT       0
+    ROUGE      1       ROUGE      rouge
+    ETEINT     0       ETEINT       0
+    ETEINT     1       VERT_2     vert
+    VERT_2     0        INIT      rouge
+    VERT_2     1       VERT_2     vert
 
 */
 
@@ -44,7 +47,7 @@ Etat present   B   Etat suivant   Sortie
 #define SORTIE 0xff
 
 
-bool read_button(){
+bool lire_bouton(){
     if (PIND & 0x04){
         _delay_ms(10);
         if (PIND & 0x04)
@@ -54,20 +57,20 @@ bool read_button(){
         return 0;
 }
 
-void red_light(){
+void lumiere_rouge(){
     PORTA = ROUGE;
 }
 
-void green_light(){
+void lumiere_verte(){
     PORTA = VERT;
 }
 
-void lights_off(){
+void lumiere_eteinte(){
     PORTA = ETEINT;
 }
 
-void amber_light(){
-    while(read_button()){
+void lumiere_ambre(){
+    while(lire_bouton()){
         PORTA = VERT;
         _delay_ms(20);
         PORTA = ROUGE;
@@ -76,77 +79,77 @@ void amber_light(){
 }
 
 int main(){
-    enum class robotState { INIT, AMBER, GREEN_1, RED, OFF, GREEN_2 };
+    enum class etatRobot { INIT, AMBRE, VERT_1, ROUGE_1, ETEINT_1, VERT_2 };
 
-    robotState currentState = robotState::INIT;
+    etatRobot etatPresent = etatRobot::INIT;
     DDRA = SORTIE;
     DDRD = ENTREE;
 
-    red_light();
+    lumiere_rouge();
 
     for(;;){
-        if (read_button()){
+        if (lire_bouton()){
 
-            switch(currentState)
+            switch(etatPresent)
             {
-                case robotState::INIT:
-                    currentState = robotState::AMBER;
-                    amber_light();
+                case etatRobot::INIT:
+                    etatPresent = etatRobot::AMBRE;
+                    lumiere_ambre();
                     break;
 
-                case robotState::AMBER:
-                    currentState = robotState::AMBER;
+                case etatRobot::AMBRE:
+                    etatPresent = etatRobot::AMBRE;
                     break;
 
-                case robotState::GREEN_1:
-                    currentState = robotState::RED;
-                    red_light();
+                case etatRobot::VERT_1:
+                    etatPresent = etatRobot::ROUGE_1;
+                    lumiere_rouge();
                     break;
                 
-                case robotState::RED:
-                    currentState = robotState::RED;
+                case etatRobot::ROUGE_1:
+                    etatPresent = etatRobot::ROUGE_1;
                     break;
 
-                case robotState::OFF:
-                    currentState = robotState::GREEN_2;
-                    green_light();
+                case etatRobot::ETEINT_1:
+                    etatPresent = etatRobot::VERT_2;
+                    lumiere_verte();
                     break;
                 
-                case robotState::GREEN_2:
-                    currentState = robotState::GREEN_2;
+                case etatRobot::VERT_2:
+                    etatPresent = etatRobot::VERT_2;
                     break;
             }
         }
 
-        if (!read_button()){
+        if (!lire_bouton()){
 
-            switch(currentState)
+            switch(etatPresent)
             {
-                case robotState::INIT:
-                    currentState = robotState::INIT;
+                case etatRobot::INIT:
+                    etatPresent = etatRobot::INIT;
                     break;
 
-                case robotState::AMBER:
-                    currentState = robotState::GREEN_1;
-                    green_light();
+                case etatRobot::AMBRE:
+                    etatPresent = etatRobot::VERT_1;
+                    lumiere_verte();
                     break;
 
-                case robotState::GREEN_1:
-                    currentState = robotState::GREEN_1;
+                case etatRobot::VERT_1:
+                    etatPresent = etatRobot::VERT_1;
                     break;
                 
-                case robotState::RED:
-                    currentState = robotState::OFF;
-                    lights_off();
+                case etatRobot::ROUGE_1:
+                    etatPresent = etatRobot::ETEINT_1;
+                    lumiere_eteinte();
                     break;
 
-                case robotState::OFF:
-                    currentState = robotState::OFF;
+                case etatRobot::ETEINT_1:
+                    etatPresent = etatRobot::ETEINT_1;
                     break;
                 
-                case robotState::GREEN_2:
-                    currentState = robotState::INIT;
-                    red_light();
+                case etatRobot::VERT_2:
+                    etatPresent = etatRobot::INIT;
+                    lumiere_rouge();
                     break;
             }
         }

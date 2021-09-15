@@ -3,16 +3,19 @@ INF1900 - TP2 - Probleme 1
 
 Nom: Jeremie Cloutier-Vilhuber
 Nom: Pablo Sepulveda Solis
-Date de modification: 2021-09-10
+Date de modification: 2021-09-15
 
 Description: 
 Programme qui allume la couleur rouge d'une DEL pendant 1 seconde
 après avoir appuyé et relâché 5 fois le bouton-poussoir. Par la suite, 
 on revient au départ pour pouvoir recommencer.
 
-Table des etats:
+Le + de la DEL libre est connecté au port A2.
+Le - de la DEL libre est connecté au port A1.
 
-Etat present   B   Etat suivant   Sortie
+Table des états:
+
+État present   B   État suivant   Sortie
     INIT       0       INIT         0
     INIT       1      APPUI 1       0
    APPUI 1     0      APPUI 1       0
@@ -36,7 +39,7 @@ Etat present   B   Etat suivant   Sortie
 #define ENTREE 0x00
 
 
-bool read_button(){
+bool lire_bouton(){
     if (PIND & 0x04){
         _delay_ms(10);
         if (PIND & 0x04)
@@ -46,49 +49,49 @@ bool read_button(){
         return 0;
 }
 
-void red_light(){
+void lumiere_rouge(){
     PORTA = ROUGE;
     _delay_ms(1000);
     PORTA = ETEINT;
 }
 
 int main(){
-    enum robotState{ INIT, APPUI_1, APPUI_2, APPUI_3, APPUI_4 };
+    enum etatRobot{ INIT, APPUI_1, APPUI_2, APPUI_3, APPUI_4 };
 
-    robotState currentState = INIT;
+    etatRobot etatPresent = INIT;
     DDRA = SORTIE;
     DDRD = ENTREE;
 
     bool appui = 0;     //Variable aidant à vérifier qu'on vérifie seulement 1 fois l'appui
 
     for(;;){
-        while (read_button()){
+        while (lire_bouton()){
             if(!appui){
-                switch(currentState){
+                switch(etatPresent){
                     case INIT:
-                        currentState = APPUI_1;
+                        etatPresent = APPUI_1;
                         break;
 
                     case APPUI_1:
-                        currentState = APPUI_2;
+                        etatPresent = APPUI_2;
                         break;
 
                     case APPUI_2:
-                        currentState = APPUI_3;
+                        etatPresent = APPUI_3;
                         break;
 
                     case APPUI_3:
-                        currentState = APPUI_4;
+                        etatPresent = APPUI_4;
                         break;
 
                     case APPUI_4:
-                        red_light();
-                        currentState = INIT;
+                        lumiere_rouge();
+                        etatPresent = INIT;
                         break;
                 }
                 appui = 1;
             }
-            if (!read_button)
+            if (!lire_bouton)
                 break;
         }
         appui = 0;
