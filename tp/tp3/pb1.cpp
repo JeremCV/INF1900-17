@@ -2,6 +2,12 @@
 #define F_CPU 8000000
 #include <util/delay.h> 
 
+void Delay_us(int n) {
+    while (n--) {
+        _delay_us(1);
+    }
+}
+
 int main()
 {
     const int toutSortie = 0xff;
@@ -10,18 +16,16 @@ int main()
     #define ROUGE 0x02; // Configuration pour la couleur rouge
     #define ETEINT 0x00; //Configuration pour lumiere eteinte
 
-    double a = 250;
-    double b = 500;
-    double dec = 42.7;
+    int a = 1000;
+    int b = 1000;
+    int dec = 1;
 
     while (a >= 0)
     {   
         PORTA = VERT;
-        _delay_ms(a);
+        Delay_us(a);
         PORTA = ETEINT;
-        _delay_ms(b-a);
-        a -= dec; 
-    
+        Delay_us(b-a);
     }
     return 0; 
 }
