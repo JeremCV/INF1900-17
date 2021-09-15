@@ -1,0 +1,27 @@
+#include <avr/io.h> 
+#define F_CPU 8000000
+#include <util/delay.h> 
+
+int main()
+{
+    const int toutSortie = 0xff;
+    DDRA = toutSortie; // Tout les ports de A sont en Sortie
+    #define VERT 0x01; // Configuration pour la couleur verte
+    #define ROUGE 0x02; // Configuration pour la couleur rouge
+    #define ETEINT 0x00; //Configuration pour lumiere eteinte
+
+    double a = 250;
+    double b = 500;
+    double dec = 42.7;
+
+    while (a >= 0)
+    {   
+        PORTA = VERT;
+        _delay_ms(a);
+        PORTA = ETEINT;
+        _delay_ms(b-a);
+        a -= dec; 
+    
+    }
+    return 0; 
+}
