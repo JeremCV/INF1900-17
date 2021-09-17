@@ -8,7 +8,7 @@
 
 void Delay_us(int n) {
     while (n--) {
-        _delay_us(1);
+        _delay_us(5);
     }
 }
 
@@ -19,7 +19,7 @@ int main()
 
     int a = 1000;
     int b = 1000;
-    int dec = 3;
+    int dec = 10;
 
     while (a >= 0)
     {   
