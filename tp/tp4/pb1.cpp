@@ -79,7 +79,6 @@ ISR (INT1_vect)
     {
         case etatRobot::INIT:
             etatPresent = etatRobot::AMBRE;
-            lumiere_ambre();
             break;
 
         case etatRobot::AMBRE:
@@ -88,7 +87,6 @@ ISR (INT1_vect)
 
         case etatRobot::VERT_1:
             etatPresent = etatRobot::ROUGE_1;
-            lumiere_rouge();
             break;
                 
         case etatRobot::ROUGE_1:
@@ -97,11 +95,43 @@ ISR (INT1_vect)
 
         case etatRobot::ETEINT_1:
             etatPresent = etatRobot::VERT_2;
-            lumiere_verte();
             break;
                 
         case etatRobot::VERT_2:
             etatPresent = etatRobot::VERT_2;
+            break;
+    }
+    EIFR |= (1 << INTF1) ;
+}
+ISR (INT0_vect) 
+{
+    g_isOn = false;
+    _delay_ms ( 10 );
+
+    switch(etatPresent)
+    {
+        case etatRobot::INIT:
+            etatPresent = etatRobot::INIT;
+            break;
+
+        case etatRobot::AMBRE:
+            etatPresent = etatRobot::VERT_1;
+            break;
+
+        case etatRobot::VERT_1:
+            etatPresent = etatRobot::VERT_1;
+            break;
+                
+        case etatRobot::ROUGE_1:
+            etatPresent = etatRobot::ETEINT_1;
+            break;
+
+        case etatRobot::ETEINT_1:
+            etatPresent = etatRobot::ETEINT_1;
+            break;
+                
+        case etatRobot::VERT_2:
+            etatPresent = etatRobot::INIT;
             break;
     }
     EIFR |= (1 << INTF0) ;
@@ -115,7 +145,7 @@ int main()
         switch(etatPresent)
         {
             case etatRobot::INIT:
-                lumiere_rouge;
+                lumiere_rouge();
                 break;
 
             case etatRobot::AMBRE:
@@ -123,7 +153,7 @@ int main()
                 break;
 
             case etatRobot::VERT_1:
-                lumiere_verte;
+                lumiere_verte();
                 break;
                 
             case etatRobot::ROUGE_1:
@@ -131,7 +161,7 @@ int main()
                 break;
 
             case etatRobot::ETEINT_1:
-                lumiere_eteinte;
+                lumiere_eteinte();
                 break;
                 
             case etatRobot::VERT_2:
