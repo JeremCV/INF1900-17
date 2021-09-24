@@ -48,25 +48,18 @@ void lumiere_ambre(){
 void initialisation ( void ) 
 {
     cli ();
-    // configurer et choisir les ports pour les entrées et les sorties. DDRx... Initialisez bien vos variables
+    
     DDRA = SORTIE;
     DDRD = ENTREE;
     etatPresent = etatRobot::INIT;
 
     EIMSK = (1 << INT1);
 
-    TCCR1A &= -((1 << WGM11) | (1 << WGM10));
-    TCCR1A &= -((1 << WGM13) | (1 << WGM12));
-
-    TCCR1B = 1 << CS10; //on
-    TCCR1B = -((1 << CS12) | (1 << CS12) | (1 << CS10)); //off
-
-    // cette procédure ajuste le registre EIMSK de l’ATmega324PA pour permettre les interruptions externes
     EIMSK |= (1 << INT0) ;
-    // il faut sensibiliser les interruptions externes aux changements de niveau du bouton-poussoir en ajustant le registre EICRA
+    
     EICRA = (0 << ISC00) | (1 << ISC01);
     EICRA |= (1 << ISC10) | (1 << ISC11);
-    // sei permet de recevoir à nouveau des interruptions.
+    
     sei ();
 }
 
