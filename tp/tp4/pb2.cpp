@@ -4,23 +4,44 @@
 #include <util/delay.h> 
 #include <avr/interrupt.h>
 
-#define ROUGE 0x02
+#define ROUGE  0x02
+#define VERT   0x01
 #define ETEINT 0x00
 #define ENTREE 0x00
 #define SORTIE 0xff
 
-
 volatile uint8_t gMinuterieExpiree;
 volatile uint8_t gBoutonPoussoir;
 
-ISR () {
+//65,536 cycles before overflow
+
+//7812.5 cycles/s with 1024 prescaler
+
+//15625 cycles/s with 512 prescaler
+
+//31250 cycles/s with 256 prescaler
+
+//62500 cycles/s with 128 prescaler
+
+ISR (TIMER1_COMPA_vect) {
     gMinuterieExpiree = 1;
 }
 
-ISR () {
+ISR (INT0_vect) {
     gBoutonPoussoir = 1;
     _delay_ms(10);
+}
 
+void lumiere_rouge(){
+    PORTA = ROUGE;
+}
+
+void lumiere_verte(){
+    PORTA = VERT;
+}
+
+void lumiere_eteinte(){
+    PORTA = ETEINT;
 }
 
 void partirMinuterie ( uint16_t duree ) {
@@ -28,12 +49,12 @@ void partirMinuterie ( uint16_t duree ) {
     gMinuterieExpiree = 0;
     // mode CTC du timer 1 avec horloge divisée par 1024
     // interruption après la durée spécifiée
-    TCNT1 = 'modifier ici' ;
+    TCNT1 = 0 ;
     OCR1A = duree;
     TCCR1A = 'modifier ici' ;
-    TCCR1B = 'modifier ici' ;
+    TCCR1B = (1 << CS12) | (0 << CS11) | (1 << CS10);
     TCCR1C = 0;
-    TIMSK1 = 'modifier ici' ;
+    TIMSK1 = (1 << TOIE1) | (1 << OCIE1A) | (1 << OCIE1B) ;
 }
 
 void initialisation( void ){
@@ -42,23 +63,37 @@ void initialisation( void ){
     DDRD = ENTREE;
     DDRA = SORTIE;
 
+    TCCR1A &= -((1 << WGM11) | (1 << WGM10));
+    TCCR1A &= -((1 << WGM13) | (1 << WGM12));
+
+    TCCR1B = 1 << CS10; //on
+
+    EIMSK |= (1 << INT0) ;
+    EICRA = (1 << ISC00) | (1 << ISC01);
+
     sei()
 }
 
 int main(){
     initialisation()
+
+    _delay_ms(10000);
+    lumiere_rouge();
+    _delay_ms(100);
+    lumiere_eteinte();
+    partirMinuterie(62500);
     do {
         //nothing
     } while ( gMinuterieExpiree == 0 && gBoutonPoussoir == 0 );
 
 
-// Une interruption s'est produite. Arrêter toute
+    // Une interruption s'est produite. Arrêter toute
 
-// forme d'interruption. Une seule réponse suffit.
+    // forme d'interruption. Une seule réponse suffit.
 
-cli ();
+    cli ();
 
-// Verifier la réponse
+    // Verifier la réponse
 
-'modifier ici'
+    'modifier ici'
 }
