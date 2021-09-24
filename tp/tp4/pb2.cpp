@@ -1,60 +1,35 @@
-/*
-INF1900 - TP2 - Probleme 2
-
-Nom: Jeremie Cloutier-Vilhuber
-Nom: Pablo Sepulveda Solis
-Date de modification: 2021-09-15
-
-Description: 
-Programme qui allume la couleur rouge d'une DEL quand la carte 
-mère démarre. Si le bouton-poussoir noir est pesé, la DEL affiche 
-la couleur ambre. Quand le bouton-poussoir est relâché, la DEL 
-devient verte. Si le bouton est de nouveau pesé, la DEL prend la 
-couleur rouge encore. Quand il est relâché, la DEL s'éteint. Si 
-le bouton est de nouveau pesé, la DEL affiche la couleur verte. 
-Quand il est relâché, la DEL tourne au rouge ce qui fait que la 
-carte mère est de retour à son état initial et tout peut recommencer.
-
-Le + de la DEL libre est connecte au port A2.
-Le - de la DEL libre est connecte au port A1.
-
-Table des etats:
-
-Etat present   B   Etat suivant   Sortie
-    INIT       0       INIT       rouge
-    INIT       1       AMBRE      ambre
-    AMBRE      0       VERT_1     vert
-    AMBRE      1       AMBRE      ambre
-    VERT_1     0       VERT_1     vert
-    VERT_1     1       ROUGE      rouge
-    ROUGE      0       ETEINT       0
-    ROUGE      1       ROUGE      rouge
-    ETEINT     0       ETEINT       0
-    ETEINT     1       VERT_2     vert
-    VERT_2     0        INIT      rouge
-    VERT_2     1       VERT_2     vert
-
-*/
-
 #include <avr/io.h> 
+#include <stdio.h>
 #define F_CPU 8000000
 #include <util/delay.h> 
+#include <avr/interrupt.h>
 
-#define VERT 0x01
-#define ROUGE 0x02
+#define ROUGE  0x02
+#define VERT   0x01
 #define ETEINT 0x00
 #define ENTREE 0x00
 #define SORTIE 0xff
 
+volatile uint8_t gMinuterieExpiree;
+volatile uint8_t gBoutonPoussoir;
 
-bool lire_bouton(){
-    if (PIND & 0x04){
-        _delay_ms(10);
-        if (PIND & 0x04)
-            return 1;
-    }
-    else
-        return 0;
+//65,536 cycles before overflow
+
+//7812.5 cycles/s with 1024 prescaler
+
+//15625 cycles/s with 512 prescaler
+
+//31250 cycles/s with 256 prescaler
+
+//62500 cycles/s with 128 prescaler
+
+ISR (TIMER1_COMPA_vect) {
+    gMinuterieExpiree = 1;
+}
+
+ISR (INT0_vect) {
+    gBoutonPoussoir = 1;
+    _delay_ms(10);
 }
 
 void lumiere_rouge(){
@@ -69,89 +44,50 @@ void lumiere_eteinte(){
     PORTA = ETEINT;
 }
 
-void lumiere_ambre(){
-    while(lire_bouton()){
-        PORTA = VERT;
-        _delay_ms(20);
-        PORTA = ROUGE;
-        _delay_ms(20);
-        }
+void partirMinuterie ( uint16_t duree ) {
+
+    gMinuterieExpiree = 0;
+    // mode CTC du timer 1 avec horloge divisée par 1024
+    // interruption après la durée spécifiée
+    TCNT1 = 0 ;
+    OCR1A = duree;
+    TCCR1A = (1 << COM1A1) | (1 << COM1A0);
+    TCCR1B = (1 << CS12) | (0 << CS11) | (0 << CS10);
+    TCCR1C = 0;
+    TIMSK1 = (1 << TOIE1) | (1 << OCIE1A) | (1 << OCIE1B) ;
+}
+
+void initialisation( void ){
+    cli();
+
+    DDRD = 0Xf0;
+    DDRA = SORTIE;
+
+    EIMSK = (1 << INT0) ;
+    EICRA = (1 << ISC00) | (1 << ISC01);
+
+    sei();
 }
 
 int main(){
-    enum class etatRobot { INIT, AMBRE, VERT_1, ROUGE_1, ETEINT_1, VERT_2 };
+    initialisation();
 
-    etatRobot etatPresent = etatRobot::INIT;
-    DDRA = SORTIE;
-    DDRD = ENTREE;
-
+    _delay_ms(10000);
     lumiere_rouge();
+    _delay_ms(100);
+    lumiere_eteinte();
+    partirMinuterie(31250);
+    do {
+        //nothing
+    } while ( gMinuterieExpiree == 0 && gBoutonPoussoir == 0 );
 
-    for(;;){
-        if (lire_bouton()){
+    // Une interruption s'est produite. Arrêter toute
+    // forme d'interruption. Une seule réponse suffit.
 
-            switch(etatPresent)
-            {
-                case etatRobot::INIT:
-                    etatPresent = etatRobot::AMBRE;
-                    lumiere_ambre();
-                    break;
-
-                case etatRobot::AMBRE:
-                    etatPresent = etatRobot::AMBRE;
-                    break;
-
-                case etatRobot::VERT_1:
-                    etatPresent = etatRobot::ROUGE_1;
-                    lumiere_rouge();
-                    break;
-                
-                case etatRobot::ROUGE_1:
-                    etatPresent = etatRobot::ROUGE_1;
-                    break;
-
-                case etatRobot::ETEINT_1:
-                    etatPresent = etatRobot::VERT_2;
-                    lumiere_verte();
-                    break;
-                
-                case etatRobot::VERT_2:
-                    etatPresent = etatRobot::VERT_2;
-                    break;
-            }
-        }
-
-        if (!lire_bouton()){
-
-            switch(etatPresent)
-            {
-                case etatRobot::INIT:
-                    etatPresent = etatRobot::INIT;
-                    break;
-
-                case etatRobot::AMBRE:
-                    etatPresent = etatRobot::VERT_1;
-                    lumiere_verte();
-                    break;
-
-                case etatRobot::VERT_1:
-                    etatPresent = etatRobot::VERT_1;
-                    break;
-                
-                case etatRobot::ROUGE_1:
-                    etatPresent = etatRobot::ETEINT_1;
-                    lumiere_eteinte();
-                    break;
-
-                case etatRobot::ETEINT_1:
-                    etatPresent = etatRobot::ETEINT_1;
-                    break;
-                
-                case etatRobot::VERT_2:
-                    etatPresent = etatRobot::INIT;
-                    lumiere_rouge();
-                    break;
-            }
-        }
-    }
+    cli ();
+    // Verifier la réponse
+    if(gMinuterieExpiree)
+        lumiere_rouge();
+    else if (!gMinuterieExpiree)
+        lumiere_verte();
 }
