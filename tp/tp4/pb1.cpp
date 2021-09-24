@@ -51,6 +51,7 @@ void initialisation ( void )
     // configurer et choisir les ports pour les entrées et les sorties. DDRx... Initialisez bien vos variables
     DDRA = SORTIE;
     DDRD = ENTREE;
+    etatPresent = etatRobot::INIT;
 
     EIMSK = (1 << INT1);
 
@@ -109,41 +110,33 @@ ISR (INT1_vect)
 int main()
 {
     initialisation();
-    lumiere_rouge();
-
     while(true)
     {
-        if (!g_isOn)
+        switch(etatPresent)
         {
-            switch(etatPresent)
-            {
-                case etatRobot::INIT:
-                    etatPresent = etatRobot::INIT;
-                    break;
+            case etatRobot::INIT:
+                lumiere_rouge;
+                break;
 
-                case etatRobot::AMBRE:
-                    etatPresent = etatRobot::VERT_1;
-                    lumiere_verte();
-                    break;
+            case etatRobot::AMBRE:
+                lumiere_ambre();
+                break;
 
-                case etatRobot::VERT_1:
-                    etatPresent = etatRobot::VERT_1;
-                    break;
+            case etatRobot::VERT_1:
+                lumiere_verte;
+                break;
                 
-                case etatRobot::ROUGE_1:
-                    etatPresent = etatRobot::ETEINT_1;
-                    lumiere_eteinte();
-                    break;
+            case etatRobot::ROUGE_1:
+                lumiere_rouge();
+                break;
 
-                case etatRobot::ETEINT_1:
-                    etatPresent = etatRobot::ETEINT_1;
-                    break;
+            case etatRobot::ETEINT_1:
+                lumiere_eteinte;
+                break;
                 
-                case etatRobot::VERT_2:
-                    etatPresent = etatRobot::INIT;
-                    lumiere_rouge();
-                    break;
-            }
-        }
+            case etatRobot::VERT_2:
+                lumiere_verte();
+                break;
+        }  
     }
 }
