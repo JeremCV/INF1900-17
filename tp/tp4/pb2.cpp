@@ -21,8 +21,6 @@ volatile uint8_t gBoutonPoussoir;
 
 //31250 cycles/s with 256 prescaler
 
-//62500 cycles/s with 128 prescaler
-
 ISR (TIMER1_COMPA_vect) {
     gMinuterieExpiree = 1;
 }
@@ -47,12 +45,10 @@ void lumiere_eteinte(){
 void partirMinuterie ( uint16_t duree ) {
 
     gMinuterieExpiree = 0;
-    // mode CTC du timer 1 avec horloge divisée par 1024
-    // interruption après la durée spécifiée
     TCNT1 = 0 ;
     OCR1A = duree;
     TCCR1A = (1 << COM1A1) | (1 << COM1A0);
-    TCCR1B = (1 << CS12) | (0 << CS11) | (0 << CS10);
+    TCCR1B = (1 << CS12) | (0 << CS11) | (0 << CS10); //prescaler à 256
     TCCR1C = 0;
     TIMSK1 = (1 << TOIE1) | (1 << OCIE1A) | (1 << OCIE1B) ;
 }
@@ -81,11 +77,8 @@ int main(){
         //nothing
     } while ( gMinuterieExpiree == 0 && gBoutonPoussoir == 0 );
 
-    // Une interruption s'est produite. Arrêter toute
-    // forme d'interruption. Une seule réponse suffit.
-
     cli ();
-    // Verifier la réponse
+ 
     if(gMinuterieExpiree)
         lumiere_rouge();
     else if (!gMinuterieExpiree)
