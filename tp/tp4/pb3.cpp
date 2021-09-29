@@ -40,15 +40,15 @@ void stop(){
 
 int main(){
     initialisation();
-    ajustementPwm(1*65536);
+    ajustementPwm(1*255);
     _delay_ms(2000);
-    ajustementPwm(0.75*65536);
+    ajustementPwm(0.75*255);
     _delay_ms(2000);
-    ajustementPwm(0.50*65536);
+    ajustementPwm(0.50*255);
     _delay_ms(2000);
-    ajustementPwm(0.25*65536);
+    ajustementPwm(0.25*255);
     _delay_ms(2000);
-    ajustementPwm(0*65536);
+    ajustementPwm(0*255);
     _delay_ms(2000);
-    stop();
+    ajustementPwm(255); //Stop
 }
