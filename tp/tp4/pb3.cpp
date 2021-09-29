@@ -34,6 +34,7 @@ void ajustementPwm ( uint8_t a ) {
     TCCR1A |= (1 << COM1B1) | (1 << COM1B0);
     TCCR1A |= (0 << WGM11) | (1 << WGM10);
     TCCR1B = (0 << WGM13) | (0 << WGM12);
+    TCCR1B |= (0 << CS12) | (1 << CS11) | (0 << CS10);
     TCCR1C = 0;
 }
 
@@ -49,6 +50,10 @@ void initialisation( void ){
     sei();
 }
 
+void stop(){
+    TCCR1B &= (0 << CS12) | (0 << CS11) | (0 << CS10);
+}
+
 int main(){
     initialisation();
     ajustementPwm(1*255);
@@ -60,4 +65,6 @@ int main(){
     ajustementPwm(0.25*255);
     _delay_ms(2000);
     ajustementPwm(0*255);
+    _delay_ms(2000);
+    stop();
 }
