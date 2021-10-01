@@ -11,6 +11,7 @@ const uint8_t ETEINTE    = 0x00;
 const int tailleDonnee = 45;
 uint8_t donnee[tailleDonnee] = {'*','P','*','O','*','L','*','Y','*','T','*','E','*','C','*','H','*','N','*','I','*','Q','*','U','*','E','*',' ','*','M','*','O','*','N','*','T','*','R','*','E','*','A','*','L','*'};
 const double  delaiEcriture = 5.0;
+const uint16_t addrDebut = 0x0000;
 
 
 void lumiere_rouge(){
@@ -25,14 +26,14 @@ int main(void )
 {   
     DDRA = SORTIE;
     Memoire24CXXX memoireExt;
-    uint16_t addrFin = 0x0000;
+    uint16_t addrFin = addrDebut + tailleDonnee*4;
 
-    for (int i = 0; i < tailleDonnee; i++){
-      memoireExt.ecriture(0x0000 + i*4, donnee[i]);
-      _delay_ms(delaiEcriture);
-      addrFin += i*4;
-    }
-    //memoireExt.ecriture(0x0000, donnee, 45);
+    // for (int i = 0; i < tailleDonnee; i++){
+    //   memoireExt.ecriture(0x0000 + i*4, donnee[i]);
+    //   _delay_ms(delaiEcriture);
+    //   addrFin += i*4;
+    // }
+    memoireExt.ecriture(addrDebut, donnee, 45);
     memoireExt.ecriture(addrFin, 0x00);
     _delay_ms(5);
 
