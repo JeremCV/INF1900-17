@@ -24,6 +24,7 @@ int main(void )
     uint16_t addrFin = 0x0000;
     memoireExt.ecriture(0x0000, donnee, 45);
     memoireExt.ecriture(addrFin, 0x00);
+    _delay_ms(5);
     DDRA = SORTIE;
 
     uint8_t resultatSortie[];
