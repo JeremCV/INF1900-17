@@ -49,4 +49,5 @@ int main(){
     ajustementPwm(0*255);
     _delay_ms(2000);
     ajustementPwm(255); //Stop
+    return 0;
 }
